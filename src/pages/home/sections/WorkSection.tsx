@@ -13,10 +13,6 @@ type RevealClipProps = {
     delaySec?: number
 }
 
-/**
- * Masked reveal: outer clips, inner slides up.
- * Matches the "cut" bottom-to-top reveal style used in Intro/About.
- */
 function RevealClip({ children, className = "", delaySec = 0 }: RevealClipProps) {
     return (
         <span
@@ -128,26 +124,17 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     const prefersReducedMotion = useReducedMotion()
     const cardRef = React.useRef<HTMLDivElement | null>(null)
 
-    /**
-     * Parallax (safe):
-     * - Stable aspect-ratio container (no layout shift)
-     * - overflow-hidden mask
-     * - move only inner layer with translateY
-     */
+
     const { scrollYProgress } = useScroll({
         target: cardRef,
         offset: ["start end", "end start"],
     })
 
-    // Higher value = more visible movement.
-    // If you see edges, reduce this or use images with more "safe crop".
     const shift = prefersReducedMotion ? 0 : 90
     const y = useTransform(scrollYProgress, [0, 1], [-shift, shift])
 
-    // Safe-crop (bleed). Increase slightly if you still see edges.
     const safeScale = prefersReducedMotion ? 1 : 1.55
 
-    // Hover timing knobs (tweak as needed)
     const shrinkScale = 0.96
     const blurPx = 18
 
@@ -160,7 +147,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <div className="relative overflow-hidden rounded-2xl p-2">
                 <div className="relative overflow-hidden rounded-xl">
                     <div className="aspect-[16/10] w-full">
-                        {/* Parallax layer (KEEP THIS) */}
                         <motion.div
                             style={{ y, scale: safeScale }}
                             className="absolute inset-0 will-change-transform"
@@ -204,7 +190,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                                             opacity: 0,
                                             y: 14,
                                             scaleX: 0.92,
-                                            scaleY: 0.18, // <-- squeezed (short)
+                                            scaleY: 0.18, 
                                             transition: {
                                                 duration: 0.5,
                                                 ease: [0.22, 1, 0.36, 1],
@@ -214,15 +200,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                                             opacity: 1,
                                             y: 0,
                                             scaleX: 1,
-                                            scaleY: 1, // <-- full shape
+                                            scaleY: 1, 
                                             transition: {
-                                                // "Squeeze -> full" feel: spring-like and slightly longer than the blur
 
                                                 type: "spring",
                                                 stiffness: 400,
                                                 damping: 22,
                                                 mass: 0.9,
-                                                delay: 0.22, // <-- still appears after blur starts
+                                                delay: 0.22, 
                                             },
                                         },
                                     }}
@@ -239,7 +224,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
             {/* Bottom meta */}
             <div className="px-5 pb-5 pt-4">
-                {/* Title row: left title, right category/year */}
                 <div className="flex items-center justify-between gap-4">
                     <div className="text-nav font-semibold tracking-wide">
                         {project.title}
@@ -251,7 +235,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     </div>
                 </div>
 
-                {/* Tech marquee (same behavior as navbar) */}
+                {/* Tech marquee */}
                 <MarqueeText
                     text={project.techMarquee}
                     className="mt-3 text-nav-p"
@@ -261,3 +245,4 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </div>
     )
 }
+
