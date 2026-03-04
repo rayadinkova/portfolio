@@ -23,10 +23,9 @@ export function ScrollToHash() {
                 return
             }
 
-            // Use Lenis for the same “site-wide” feel
             lenis.scrollTo(el, {
                 offset: 0,
-                duration: 1.35, // tweak here if you want slower/faster anchor jumps
+                duration: 1.35, //slower/faster anchor jumps
                 immediate: false,
                 lock: false,
             })
@@ -43,3 +42,4 @@ export function ScrollToHash() {
 
     return null
 }
+
