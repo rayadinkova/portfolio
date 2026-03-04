@@ -14,7 +14,6 @@ type RevealClipProps = {
   delaySec?: number
 }
 
-// Masked reveal: container clips, inner slides up
 function RevealClip({ children, className = "", delaySec = 0 }: RevealClipProps) {
   return (
     <span className={["relative inline-block overflow-hidden align-bottom", className].join(" ")}>
@@ -42,18 +41,14 @@ export function IntroSection() {
   const prefersReducedMotion = useReducedMotion()
   const heroRef = React.useRef<HTMLDivElement | null>(null)
 
-  // Raw pointer-driven values
   const xRaw = useMotionValue(0)
   const yRaw = useMotionValue(0)
 
-  // Smooth them (this is what makes it feel like itsjay.us)
   const x = useSpring(xRaw, { stiffness: 140, damping: 28, mass: 0.35 })
   const y = useSpring(yRaw, { stiffness: 260, damping: 28, mass: 0.2 })
 
-  // refs (add these next to your existing heroRef)
   const frameRef = React.useRef<HTMLDivElement | null>(null)
 
-  // helpers (add inside IntroSection, above onPointerMove)
   function clamp(n: number, min: number, max: number) {
     return Math.min(max, Math.max(min, n))
   }
@@ -62,7 +57,6 @@ export function IntroSection() {
     if (prefersReducedMotion) return
 
     function onWindowPointerMove(e: PointerEvent) {
-      // Desktop only (matches your current intent)
       if (e.pointerType && e.pointerType !== "mouse") return
 
       const frame = frameRef.current
@@ -71,7 +65,6 @@ export function IntroSection() {
       const vw = window.innerWidth || 1
       const rect = frame.getBoundingClientRect()
 
-      // Center the box under the mouse X across the full viewport
       const targetLeft = e.clientX - rect.width / 2
       const clampedLeft = clamp(targetLeft, 0, vw - rect.width)
 
@@ -103,12 +96,10 @@ export function IntroSection() {
       <div ref={heroRef} className="relative">
         {/* Image / Video block */}
         <div className="order-2 md:order-1 md:justify-self-end mt-2 md:mt-0">
-          {/* Layout frame: this keeps your sizing stable */}
           <div ref={frameRef} className="relative h-52 w-full md:h-56 md:w-130">
             {/* MOBILE: static */}
             <div className="absolute inset-0 rounded-2xl bg-black/10 md:hidden" />
 
-            {/* DESKTOP: moving */}
             <motion.div
               className="hidden md:block absolute inset-0 rounded-2xl bg-black/10 will-change-transform"
               style={{
@@ -181,3 +172,4 @@ export function IntroSection() {
     </Section>
   )
 }
+
