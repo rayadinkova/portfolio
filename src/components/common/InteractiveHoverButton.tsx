@@ -23,14 +23,10 @@ export const InteractiveHoverButton = React.forwardRef<
     InteractiveHoverButtonProps
 >(({ children, className = "", ...props }, ref) => {
     const baseClassName = [
-        // Layout
         "group relative inline-flex w-auto cursor-pointer items-center justify-center overflow-hidden rounded-full",
-        // Styling: default = transparent with black border, hover = black fill
         "border border-black bg-transparent text-black",
         "hover:bg-black hover:text-white",
-        // Padding: reserve space for the dot on the left (this fixes the “off” look)
         "py-3 pr-6 pl-8",
-        // A bit of polish
         "shadow-sm transition-colors",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20",
         "motion-reduce:transition-none",
@@ -39,12 +35,10 @@ export const InteractiveHoverButton = React.forwardRef<
 
     const content = (
         <>
-            {/* Dot that expands on hover (becomes the background) */}
             <span
                 aria-hidden="true"
                 className={[
                     "absolute left-4 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full",
-                    // Dot is black so it can expand into a black background
                     "bg-black",
                     "transition-transform duration-300 ease-out",
                     "group-hover:scale-[80]",
@@ -69,7 +63,6 @@ export const InteractiveHoverButton = React.forwardRef<
                 className={[
                     "absolute inset-0 z-10 inline-flex items-center justify-center gap-2",
                     "translate-x-10 opacity-0",
-                    // On hover the dot fills black, so hover content should be white
                     "text-white",
                     "transition-all duration-300 ease-out",
                     "group-hover:translate-x-0 group-hover:opacity-100",
@@ -112,3 +105,4 @@ export const InteractiveHoverButton = React.forwardRef<
 })
 
 InteractiveHoverButton.displayName = "InteractiveHoverButton"
+
