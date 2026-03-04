@@ -5,7 +5,6 @@ export function ScrollToTopOnRouteChange() {
     const { pathname, hash } = useLocation()
 
     useEffect(() => {
-        // If we have a hash (#intro), let the hash-scroller handle it
         if (hash) return
 
         window.scrollTo({ top: 0, left: 0, behavior: "auto" })
@@ -13,3 +12,4 @@ export function ScrollToTopOnRouteChange() {
 
     return null
 }
+
