@@ -1,0 +1,283 @@
+@import "tailwindcss";
+
+:root {
+  font-family: "Geologica", system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+    sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  scroll-padding-top: 88px;
+  /* adjust to your navbar height */
+
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 0px;
+    /* if navbar is bottom on desktop */
+  }
+}
+
+body {
+  background: rgba(233, 233, 233, 0.3);
+  margin: 0;
+
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Bottom-to-top reveal on enter */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(12px);
+  clip-path: inset(100% 0 0 0);
+  transition:
+    opacity 600ms ease,
+    transform 600ms ease,
+    clip-path 700ms ease;
+  will-change: transform, opacity, clip-path;
+}
+
+.reveal-up.reveal-up--in {
+  opacity: 1;
+  transform: translateY(0);
+  clip-path: inset(0 0 0 0);
+}
+
+/* Reveal top -> bottom (no transform so it won't conflict with Framer Motion y) */
+.reveal-down {
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transition: opacity 600ms ease, clip-path 700ms ease;
+  will-change: opacity, clip-path;
+}
+
+.reveal-down.reveal-down--in {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+}
+
+/* Stagger helpers for reveal-on-enter */
+.reveal-delay-0 {
+  transition-delay: 0ms, 0ms, 0ms;
+}
+
+.reveal-delay-1 {
+  transition-delay: 80ms, 80ms, 80ms;
+}
+
+.reveal-delay-2 {
+  transition-delay: 160ms, 160ms, 160ms;
+}
+
+.reveal-delay-3 {
+  transition-delay: 240ms, 240ms, 240ms;
+}
+
+.reveal-delay-4 {
+  transition-delay: 320ms, 320ms, 320ms;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+  .reveal-delay-0,
+  .reveal-delay-1,
+  .reveal-delay-2,
+  .reveal-delay-3,
+  .reveal-delay-4 {
+    transition-delay: 0ms, 0ms, 0ms;
+  }
+}
+
+/* Desktop: disable this reveal entirely (so desktop keeps only the parallax behavior) */
+@media (min-width: 768px) {
+  .reveal-down {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transition: none;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-down {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transition: none;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up {
+    transition: none;
+    transform: none;
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+
+@layer components {
+
+  /* Hero layout gap rules (Figma: 16 mobile, 8 desktop) */
+  .hero-gap {
+    @apply gap-4 md:gap-0;
+  }
+
+  /* Figma typography mapping
+  Hero text: 16 mobile, 24 desktop
+  A SERIOUSLY GOOD */
+  .text-hero-m {
+    @apply text-base;
+    /* 16px */
+  }
+
+  .text-hero-d {
+    @apply text-base md:text-[16px];
+  }
+
+  /* DESIGN ENGINEER */
+  .text-hero-title {
+    @apply leading-[0.95] tracking-tight md:leading-[0.9] md:font-bold;
+    font-size: 152px;
+  }
+
+  .text-h1 {
+    @apply text-[16px] font-normal;
+  }
+
+  .text-p {
+    @apply text-[16px] text-white/80 font-extralight;
+  }
+
+  .text-nav {
+    @apply text-[16px] font-normal;
+  }
+
+  .text-nav-p {
+    @apply text-[16px] text-white/80 font-extralight;
+  }
+
+
+  /* Navbar menu smooth open: top -> bottom */
+  .nav-menu {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    pointer-events: none;
+    transition: grid-template-rows 320ms cubic-bezier(.2, .8, .2, 1),
+      opacity 200ms ease-out;
+  }
+
+  .nav-menu__inner {
+    overflow: hidden;
+  }
+
+  .nav-menu--open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+
+
+}
+
+/* Marquee (scrolling text) */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+
+  /* fade edges (best practice) */
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%);
+  mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%);
+}
+
+.marquee__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  will-change: transform;
+  animation: marquee-scroll var(--marquee-duration, 9000ms) linear infinite;
+}
+
+.marquee__item {
+  display: inline-block;
+  padding-right: 3px;
+}
+
+/* Seamless loop: track moves by half its length (because we duplicate the content) */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+    transform: none;
+  }
+}
+
+@keyframes divider-reveal {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.divider-reveal {
+  transform: scaleX(0);
+  opacity: 0;
+  transform-origin: left;
+  animation: divider-reveal 450ms ease-out forwards;
+  animation-delay: 250ms;
+  /* starts after the box opening */
+}
+
+
+@keyframes panel-reveal-up {
+  from {
+    transform: translateY(8px) scaleY(0.98);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+}
