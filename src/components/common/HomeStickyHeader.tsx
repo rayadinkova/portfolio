@@ -7,7 +7,6 @@ type RevealClipProps = {
     delaySec?: number
 }
 
-// Same reveal effect as Intro (kept local so IntroSection can stay clean)
 function RevealClip({ children, className = "", delaySec = 0 }: RevealClipProps) {
     return (
         <span className={["relative inline-block overflow-hidden align-bottom", className].join(" ")}>
@@ -38,7 +37,6 @@ export function HomeStickyHeader() {
                 "bg-transparent"
             ].join(" ")}
         >
-            {/* Match your Section horizontal padding if you have one */}
             <div className="mx-auto w-full px-6 py-6 md:px-8">
                 <div className="flex items-start justify-between">
                     <div className="min-w-0">
@@ -62,3 +60,4 @@ export function HomeStickyHeader() {
         </div>
     )
 }
+
