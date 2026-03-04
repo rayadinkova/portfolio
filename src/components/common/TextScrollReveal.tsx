@@ -10,10 +10,6 @@ type ScrollOffset = NonNullable<NonNullable<Parameters<typeof useScroll>[0]>["of
 type TextScrollRevealProps = {
     text: string
     className?: string
-    /**
-     * Controls when the reveal starts/ends relative to viewport.
-     * Must match Framer Motion's ScrollOffset format.
-     */
     offset?: ScrollOffset
 }
 
@@ -68,3 +64,4 @@ export function TextScrollReveal({
         </p>
     )
 }
+
