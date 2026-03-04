@@ -97,7 +97,6 @@ export function ServicesSection() {
     return (
         <Section id="services" className="mt-10 py-0 md:py-0">
 
-            {/* OUTER dark container (matches Figma: header + inner card live inside the same dark block) */}
             <div
                 className={[
                     "rounded-3xl",
@@ -108,7 +107,6 @@ export function ServicesSection() {
             >
 
 
-                {/* Header (inside the dark container now) */}
                 <div className="mx-auto w-full">
                     <RevealUp
                         delay={0.0}
@@ -130,7 +128,6 @@ export function ServicesSection() {
                     </RevealUp>
                 </div>
 
-                {/* INNER lighter container (the big light-ish panel that holds the 3 service rows) */}
                 <div className="mt-10 rounded-3xl bg-white/10">
                     <div className="px-5 py-6 md:px-8 md:py-8">
                         {SERVICES.map((s, i) => {
@@ -186,7 +183,6 @@ export function ServicesSection() {
                                             </div>
                                         </div>
 
-                                        {/* Image placeholder: simple LIGHT GREY div (as requested) + top->bottom reveal */}
                                         <RevealDown>
                                             <div
                                                 className={[
@@ -204,7 +200,6 @@ export function ServicesSection() {
 
 
 
-                                    {/* Divider (except after last) */}
                                     {i !== SERVICES.length - 1 && (
                                         <div className="mt-8 md:mt-10 h-px w-full bg-white/12" />
                                     )}
@@ -219,3 +214,4 @@ export function ServicesSection() {
         </Section>
     )
 }
+
